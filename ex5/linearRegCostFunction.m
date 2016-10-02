@@ -5,17 +5,17 @@ function [J, grad] = linearRegCostFunction(X, y, theta, lambda)
 %   cost of using theta as the parameter for linear regression to fit the
 %   data points in X and y. Returns the cost in J and the gradient in grad
 
-% Initialize some useful values
 m = length(y); % number of training examples
 
 grad = zeros(size(theta));
 
+thetaWithZeroFirstElem = [0; theta(2:end)];
 hypothesis = X * theta;
 J = (1.0 / (2 * m)) * sum((hypothesis - y) .^ 2); % regular cost function term
-J += (lambda / (2 * m)) * sum(theta(2:end) .^ 2); % add regularization term
+J += (lambda / (2 * m)) * sum(thetaWithZeroFirstElem .^ 2); % add regularization term
 
-% TODO: implement grad
-
+grad = (1.0 / m) * X' * (hypothesis - y) + ...
+        (lambda / m) * thetaWithZeroFirstElem;
 grad = grad(:);
 
 end
